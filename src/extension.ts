@@ -4,7 +4,8 @@ import * as path from 'path';
 export function activate(context: vscode.ExtensionContext) {
     console.log('Congratulations, your extension "prayer-debugging" is now active!');
 
-    const disposable = vscode.commands.registerCommand('prayer-debugging.pray', () => {
+    // Register the 'pray' command which shows the prayer webview
+    const prayCommand = vscode.commands.registerCommand('prayer-debugging.pray', () => {
         const panel = vscode.window.createWebviewPanel(
             'imageViewer', // Identifies the type of the webview. Used internally
             'Image Viewer', // Title of the panel displayed to the user
@@ -24,12 +25,39 @@ export function activate(context: vscode.ExtensionContext) {
         panel.webview.html = getWebviewContent(imageUri);
     });
 
-    context.subscriptions.push(disposable);
+    // Register the new 'offer_pray' command
+    const offerPrayCommand = vscode.commands.registerCommand('prayer-debugging.offerPray', () => {
+
+    });
+
+    // context.subscriptions.push(prayCommand, offerPrayCommand);
+
+    // Add status bar message with command to invoke the prayer
+    const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+    statusBarItem.text = '$(zap) Click here to pray for debugging!';
+    statusBarItem.command = 'prayer-debugging.pray'; // This will call the 'pray' command when clicked
+    statusBarItem.tooltip = 'Click to invoke the prayer for debugging';
+
+    // Show status bar message
+    statusBarItem.show();
+    context.subscriptions.push(statusBarItem);
+
+    // Optionally hide the status bar message after a period of time
+    setTimeout(() => {
+        statusBarItem.hide();
+    }, 10000);
+
+    // Call offer_pray to show a message to the user
+    offer_pray();
 }
 
-
-
 export function deactivate() { }
+
+// This function shows an informational message when activated
+function offer_pray() {
+    // TODO: uncomment this if i want to show users they can click to get the prayer
+    // vscode.window.showInformationMessage('Click the zap icon in the status bar to invoke the prayer for debugging!');
+}
 
 function getWebviewContent(imageUri: vscode.Uri) {
     // Create the HTML content to be displayed in the webview

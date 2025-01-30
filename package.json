@@ -14,7 +14,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "prayer-debugging.pray",
+        "command": "prayer-debugging.offerPray",
         "title": "Pray"
       }
     ]
