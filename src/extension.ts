@@ -26,10 +26,21 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     vscode.debug.onDidStartDebugSession((session) => {
-
+        // ask if the debugger is started
         askForPrayer(context);
+    });
 
 
+    vscode.languages.onDidChangeDiagnostics(event => {
+        const errors = vscode.languages.getDiagnostics();
+        errors.forEach(([uri, diagnostics]) => {
+            diagnostics.forEach(diagnostic => {
+                if (diagnostic.severity === vscode.DiagnosticSeverity.Error) {
+                    console.log(`Syntax error in ${uri}: ${diagnostic.message}`);
+                    askForPrayer(context);
+                }
+            });
+        });
     });
 
 
@@ -37,7 +48,21 @@ export function activate(context: vscode.ExtensionContext) {
 
 export function deactivate() { }
 
+
+let lastAsked: number = 0;
+let timeoutSeconds: number = 10;
+
 export function askForPrayer(context: vscode.ExtensionContext) {
+    const now = Date.now();
+    if (now - lastAsked < timeoutSeconds * 1000) {
+        return; // Return immediately if called within the last 10 seconds
+    }
+    lastAsked = now;
+
+
+
+
+
     // Add status bar message with command to invoke the prayer
     const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
     statusBarItem.text = '🙏 Click here to pray for debugging!';
@@ -51,7 +76,7 @@ export function askForPrayer(context: vscode.ExtensionContext) {
     // Optionally hide the status bar message after a period of time
     setTimeout(() => {
         statusBarItem.hide();
-    }, 10000);
+    }, timeoutSeconds * 1000);
 
 
 }
