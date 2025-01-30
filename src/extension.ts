@@ -27,25 +27,25 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Register the new 'offer_pray' command
     const offerPrayCommand = vscode.commands.registerCommand('prayer-debugging.offerPray', () => {
+        // context.subscriptions.push(prayCommand, offerPrayCommand);
+
+        // Add status bar message with command to invoke the prayer
+        const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+        statusBarItem.text = '🙏 Click here to pray for debugging!';
+        statusBarItem.command = 'prayer-debugging.pray'; // This will call the 'pray' command when clicked
+        statusBarItem.tooltip = 'Click to invoke the prayer for debugging';
+
+        // Show status bar message
+        statusBarItem.show();
+        context.subscriptions.push(statusBarItem);
+
+        // Optionally hide the status bar message after a period of time
+        setTimeout(() => {
+            statusBarItem.hide();
+        }, 10000);
 
     });
 
-    // context.subscriptions.push(prayCommand, offerPrayCommand);
-
-    // Add status bar message with command to invoke the prayer
-    const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-    statusBarItem.text = '$(zap) Click here to pray for debugging!';
-    statusBarItem.command = 'prayer-debugging.pray'; // This will call the 'pray' command when clicked
-    statusBarItem.tooltip = 'Click to invoke the prayer for debugging';
-
-    // Show status bar message
-    statusBarItem.show();
-    context.subscriptions.push(statusBarItem);
-
-    // Optionally hide the status bar message after a period of time
-    setTimeout(() => {
-        statusBarItem.hide();
-    }, 10000);
 
     // Call offer_pray to show a message to the user
     offer_pray();
