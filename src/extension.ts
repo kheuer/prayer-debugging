@@ -31,17 +31,45 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
 
+    const errorTimestamps = new Map();
+
     vscode.languages.onDidChangeDiagnostics(event => {
         const errors = vscode.languages.getDiagnostics();
+        const now = Date.now();
+
         errors.forEach(([uri, diagnostics]) => {
             diagnostics.forEach(diagnostic => {
                 if (diagnostic.severity === vscode.DiagnosticSeverity.Error) {
-                    console.log(`Syntax error in ${uri}: ${diagnostic.message}`);
-                    askForPrayer(context);
+                    const key = `${uri.toString()}_${diagnostic.message}`;
+
+                    if (!errorTimestamps.has(key)) {
+                        // Store the timestamp when the error first appeared
+                        errorTimestamps.set(key, now);
+
+                        // Schedule a check after 5 seconds
+                        setTimeout(() => {
+                            const persistedTime = errorTimestamps.get(key);
+                            if (persistedTime && Date.now() - persistedTime >= 5000) {
+                                console.log(`Syntax error in ${uri}: ${diagnostic.message}`);
+                                askForPrayer(context);
+                            }
+                        }, 5000);
+                    }
                 }
             });
         });
+
+        // Clean up resolved errors
+        errorTimestamps.forEach((timestamp, key) => {
+            const stillExists = errors.some(([uri, diagnostics]) =>
+                diagnostics.some(d => key === `${uri.toString()}_${d.message}`)
+            );
+            if (!stillExists) {
+                errorTimestamps.delete(key);
+            }
+        });
     });
+
 
 
 }
