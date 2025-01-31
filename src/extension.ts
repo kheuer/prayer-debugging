@@ -30,7 +30,16 @@ export function activate(context: vscode.ExtensionContext) {
         askForPrayer(context);
     });
 
+    vscode.debug.onDidTerminateDebugSession((session) => {
+        // ask if a debug session ends
+        askForPrayer(context);
+    });
 
+
+
+
+
+    // ask for prayer when an error is detected in the code and not fixed within 5 seconds.
     const errorTimestamps = new Map();
 
     vscode.languages.onDidChangeDiagnostics(event => {
