@@ -35,6 +35,45 @@ export function activate(context: vscode.ExtensionContext) {
         askForPrayer(context);
     });
 
+    vscode.languages.onDidChangeDiagnostics(event => {
+        const errors = vscode.languages.getDiagnostics();
+        const now = Date.now();
+
+        errors.forEach(([uri, diagnostics]) => {
+            diagnostics.forEach(diagnostic => {
+                // Check if the diagnostic is an error
+                if (diagnostic.severity === vscode.DiagnosticSeverity.Error) {
+                    const key = `${uri.toString()}_${diagnostic.message}`;
+
+                    // If it's a new error, store its timestamp
+                    if (!errorTimestamps.has(key)) {
+                        errorTimestamps.set(key, now);
+
+                        // Schedule a prayer request after 5 seconds if still unresolved
+                        setTimeout(() => {
+                            const persistedTime = errorTimestamps.get(key);
+                            // Only ask for prayer if the error still existed for at least 5 seconds
+                            if (persistedTime && Date.now() - persistedTime >= 5000) {
+                                console.log(`Syntax error in ${uri}: ${diagnostic.message}`);
+                                askForPrayer(context); // Asking for prayer now
+                            }
+                        }, 5000);
+                    }
+                }
+            });
+        });
+
+        // Clean up resolved errors (remove them from the map)
+        errorTimestamps.forEach((timestamp, key) => {
+            const stillExists = errors.some(([uri, diagnostics]) =>
+                diagnostics.some(d => key === `${uri.toString()}_${d.message}`)
+            );
+            if (!stillExists) {
+                errorTimestamps.delete(key);
+            }
+        });
+    });
+
 
 
 
