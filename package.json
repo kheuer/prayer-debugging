@@ -18,6 +18,10 @@
     "christian",
     "debug"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kheuer/prayer-debugging"
+  },
   "activationEvents": [
     "onStartupFinished"
   ],
