@@ -41,9 +41,8 @@ export function activate(context: vscode.ExtensionContext) {
         askForPrayer(context);
     });
 
-
     vscode.window.onDidEndTerminalShellExecution((terminal) => {
-        console.log("onDidEndTerminalShellExecution " + terminal.exitCode);//JSON.stringify(terminal)
+        console.log("onDidEndTerminalShellExecution " + terminal.exitCode);
         if (terminal.exitCode !== 0) {
             askForPrayer(context);
         }
@@ -105,7 +104,7 @@ export function askForPrayer(context: vscode.ExtensionContext) {
     const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
     statusBarItem.text = getPrayerPrompt(language);
     statusBarItem.command = 'prayer-debugging.pray';
-    statusBarItem.tooltip = 'Click to invoke the prayer for debugging';
+    statusBarItem.tooltip = getPrayerPrompt(language);
 
     // Show and auto-hide the status bar message
     statusBarItem.show();
@@ -128,7 +127,7 @@ function getPrayerPrompt(language: string): string {
 }
 
 // Function to return prayer text based on selected language
-function getPrayerText(language: string) {
+function getPrayerText(language: string): string {
     const prayers = {
         en: `
         Almighty God, source of all wisdom and knowledge, I humbly ask, 
@@ -180,7 +179,7 @@ function getPrayerText(language: string) {
     return prayers[language] || prayers.en; // Default to English if not found
 }
 // function to get the tab title depending on the language
-function getTabTitle(language: string) {
+function getTabTitle(language: string): string {
     const titles = {
         en: "Blessed Carlo Acutis",
         de: "Gesegneter Carlo Acutis",
@@ -193,7 +192,7 @@ function getTabTitle(language: string) {
 // Function to set content for the webview
 function getWebviewContent(imageUri: vscode.Uri, language: string) {
     const prayerText = getPrayerText(language);
-    const tabTitle = getTabTitle(language)
+    const tabTitle = getTabTitle(language);
 
     return `<!DOCTYPE html>
 <html lang="${language}">
