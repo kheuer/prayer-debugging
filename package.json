@@ -14,6 +14,21 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "Prayer Debugging",
+      "properties": {
+        "prayer-debugging.language": {
+          "type": "string",
+          "default": "en",
+          "enum": [
+            "en",
+            "es",
+            "de"
+          ],
+          "description": "Select the language for the prayer: 'en' for english, 'es' para español, 'de' für deutsch."
+        }
+      }
+    },
     "commands": [
       {
         "command": "prayer-debugging.offerPray",
