@@ -19,15 +19,20 @@ By default the Prayer will be in English, you can configure your preferred langu
 
 
 1. Press `CTRL + SHIFT + P` to open the Command Palette.
-2. Type `Preferences: Open Settings (JSON)` and select it.
+2. Type `Preferences: Open User Settings (JSON)` and select it.
 3. Add one of the following line to your settings file:
     * **For English (Enabled by Default)**: "prayer-debugging.language": "en"
     * **Para Español**: "prayer-debugging.language": "es"
     * **Für Deutsch**: "prayer-debugging.language": "de" 
 4. If your language is not supported, you can send me a translation of the prayer to admin(at)kheuer.de and i'll add it.
 
+## Acknowledgments
+
+Special thanks to Alex for publishing the prayer used in this extension. You can find out more about his work on his [website](https://www.alexmolas.com/).
+
+
 ## Release Notes
 
-### 1.0.0
+### 1.0.1
 
 Initial release

@@ -2,7 +2,7 @@
   "name": "prayer-debugging",
   "displayName": "Prayer Debugging",
   "description": "Helps you debug your code and grow in faith and dependence on God.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "kheuer",
   "icon": "icon.png",
   "engines": {
