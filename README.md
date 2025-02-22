@@ -1,7 +1,8 @@
 # Prayer Debugging VSCode Extension
 
 Welcome to the Prayer Debugging extension for Visual Studio Code! This extension is designed to support developers in moments of coding frustration by prompting them to pause and recenter through prayer, invoking the intercession of the Blessed Carlo Acutis. 
-![Usage Demo](usage_demo.gif)
+
+![Usage Demo](https://raw.githubusercontent.com/kheuer/prayer-debugging/refs/heads/master/usage_demo.gif)
 
 
 ## Features
