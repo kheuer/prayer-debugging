@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { listeners } from 'process';
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('Congratulations, your extension "prayer-debugging" is now active!');
@@ -39,6 +40,15 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.debug.onDidTerminateDebugSession((session) => {
         askForPrayer(context);
     });
+
+
+    vscode.window.onDidEndTerminalShellExecution((terminal) => {
+        console.log("onDidEndTerminalShellExecution " + terminal.exitCode);//JSON.stringify(terminal)
+        if (terminal.exitCode !== 0) {
+            askForPrayer(context);
+        }
+    });
+
 
     // Error handling and notification logic
     const errorTimestamps = new Map();
