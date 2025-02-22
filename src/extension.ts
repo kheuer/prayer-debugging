@@ -93,7 +93,14 @@ let timeoutSeconds: number = 10;
 
 export function askForPrayer(context: vscode.ExtensionContext) {
     const config = vscode.workspace.getConfiguration('prayer-debugging');
-    const language = config.get<string>('language');
+    const languageValue = config.get<string>('language');
+    let language: string;
+    if (languageValue !== undefined) {
+        language = languageValue;
+    } else {
+        language = "en";
+    }
+
 
     const now = Date.now();
     if (now - lastAsked < timeoutSeconds * 1000) {
@@ -117,18 +124,19 @@ export function askForPrayer(context: vscode.ExtensionContext) {
 
 // Function to get the prayer prompt based on selected language
 function getPrayerPrompt(language: string): string {
-    const prompts = {
+    const prompts: Record<string, string> = {
         en: '🙏 Click here to pray for debugging!',
         de: '🙏 Klicken Sie hier, um für das Debugging zu beten!',
         es: '🙏 ¡Haga clic aquí para orar por la depuración!'
     };
 
-    return prompts[language] || prompts.en; // Default to English if not found
+    // Return prompt if exists, otherwise, fallback to default (English)
+    return prompts[language] || prompts['en'];
 }
 
 // Function to return prayer text based on selected language
 function getPrayerText(language: string): string {
-    const prayers = {
+    const prayers: Record<string, string> = {
         en: `
         Almighty God, source of all wisdom and knowledge, I humbly ask, 
         through the intercession of your servant Carlo Acutis, that you 
@@ -180,7 +188,7 @@ function getPrayerText(language: string): string {
 }
 // function to get the tab title depending on the language
 function getTabTitle(language: string): string {
-    const titles = {
+    const titles: Record<string, string> = {
         en: "Blessed Carlo Acutis",
         de: "Gesegneter Carlo Acutis",
         es: "Beato Carlo Acutis"

@@ -3,7 +3,7 @@
   "displayName": "Prayer Debugging",
   "description": "Helps you debug your code and grow in faith and dependence on God.",
   "version": "1.0.0",
-  "puplisher": "kheuer",
+  "publisher": "kheuer",
   "icon": "icon.png",
   "engines": {
     "vscode": "^1.96.0"
