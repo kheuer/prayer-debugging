@@ -33,6 +33,6 @@ Special thanks to Alex for publishing the prayer used in this extension. You can
 
 ## Release Notes
 
-### 1.0.1
+### 1.0.2
 
 Initial release
