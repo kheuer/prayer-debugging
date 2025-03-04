@@ -2,11 +2,11 @@
   "name": "prayer-debugging",
   "displayName": "Prayer Debugging",
   "description": "Helps you debug your code and grow in faith and dependence on God.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "kheuer",
   "icon": "icon.png",
   "engines": {
-    "vscode": "^1.96.0"
+    "vscode": "^1.97.0"
   },
   "license": "UNLICENSED",
   "categories": [
